@@ -5,10 +5,10 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "lib": [
-      "ES2017"
+      "ES2020"
     ],
     "module": "CommonJS",
-    "target": "ES2017",
+    "target": "ES2020",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
