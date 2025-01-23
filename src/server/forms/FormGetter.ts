@@ -1,5 +1,8 @@
 import { FormResponse, FormItem } from './types';
 
+/**
+ * Warning: Form methods is too heavy.
+ */
 export class FormGetter {
   private form: GoogleAppsScript.Forms.Form;
 
@@ -16,21 +19,25 @@ export class FormGetter {
   }
 
   getResponses(): FormResponse[] {
+    // console.log('start getResponses', Date.now());
     const responses = this.form.getResponses();
+    // console.log('end getResponses', Date.now());
     const result: FormResponse[] = [];
     for (const response of responses) {
+      // console.log('each response', Date.now());
       const responseId = response.getId();
-      const items = response.getItemResponses().map((item) => {
+      const items = response.getItemResponses().map((itemResponse) => {
+        const item = itemResponse.getItem();
         const result: FormItem = {
-          title: item.getItem().getTitle(),
-          type: item.getItem().getType().toString(),
-          response: item.getResponse().toString(),
+          title: item.getTitle(),
+          type: item.getType().toString() as FormItem['type'],
+          response: itemResponse.getResponse().toString(),
         };
         return result;
       });
       result.push({
         id: responseId,
-        timestamp: response.getTimestamp(),
+        timestamp: response.getTimestamp().toString(),
         email: response.getRespondentEmail(),
         items,
       });
