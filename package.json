@@ -12,10 +12,12 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",
+    "test": "vitest",
     "prepublishOnly": "tsc"
   },
   "devDependencies": {
     "@types/google-apps-script": "^1.0.91",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.4"
   }
 }
