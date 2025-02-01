@@ -1,26 +1,27 @@
-type PropertiesType = GoogleAppsScript.Properties.Properties;
+import { PropertyType } from './types';
+import { getPropertyFromType } from './utils';
 
 export class HistoryManager {
-  private readonly properties: PropertiesType;
-  private readonly storageKey: string;
-  private readonly maxItems: number;
+  private readonly properties: GoogleAppsScript.Properties.Properties;
   private items: string[] = [];
 
   constructor(
-    properties: PropertiesType,
-    storageKey: string,
-    maxItems: number = 100
+    private readonly params: {
+      propertyType: PropertyType;
+      storageKey: string;
+      maxItems: number;
+    }
   ) {
-    this.properties = properties;
-    this.storageKey = storageKey;
-    this.maxItems = maxItems;
-    this.items = JSON.parse(properties.getProperty(storageKey) ?? '[]');
+    this.properties = getPropertyFromType(params.propertyType);
+    this.items = JSON.parse(
+      this.properties.getProperty(params.storageKey) ?? '[]'
+    );
   }
 
   public add(id: string): void {
     if (!this.items.includes(id)) {
       this.items.push(id);
-      if (this.items.length > this.maxItems) {
+      if (this.items.length > this.params.maxItems) {
         this.items.shift(); // 古いものから削除
       }
       this.saveItems();
@@ -37,6 +38,9 @@ export class HistoryManager {
   }
 
   private saveItems(): void {
-    this.properties.setProperty(this.storageKey, JSON.stringify(this.items));
+    this.properties.setProperty(
+      this.params.storageKey,
+      JSON.stringify(this.items)
+    );
   }
 }

@@ -1,3 +1,6 @@
+import { PropertyType } from './types';
+import { getPropertyFromType } from './utils';
+
 /**
  * A utility class that wraps Google Apps Script's Properties Service to provide
  * type-safe persistent storage functionality.
@@ -15,21 +18,8 @@
 export class PropertyStore<T> {
   private readonly properties: GoogleAppsScript.Properties.Properties;
 
-  constructor(
-    private readonly name: string,
-    private readonly type: 'script' | 'document' | 'user'
-  ) {
-    switch (type) {
-      case 'script':
-        this.properties = PropertiesService.getScriptProperties();
-        break;
-      case 'document':
-        this.properties = PropertiesService.getDocumentProperties();
-        break;
-      case 'user':
-        this.properties = PropertiesService.getUserProperties();
-        break;
-    }
+  constructor(private readonly name: string, propertyType: PropertyType) {
+    this.properties = getPropertyFromType(propertyType);
   }
 
   get(key: string): T | undefined {
