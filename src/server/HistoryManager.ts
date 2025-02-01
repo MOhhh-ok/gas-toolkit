@@ -18,14 +18,14 @@ export class HistoryManager {
     );
   }
 
-  public add(id: string): void {
-    if (!this.items.includes(id)) {
-      this.items.push(id);
-      if (this.items.length > this.params.maxItems) {
-        this.items.shift(); // 古いものから削除
+  public add(ids: string[]): void {
+    for (const id of ids) {
+      if (!this.items.includes(id)) {
+        this.items.push(id);
       }
-      this.saveItems();
     }
+    this.items = this.items.slice(-this.params.maxItems);
+    this.saveItems();
   }
 
   public has(id: string): boolean {
