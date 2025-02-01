@@ -9,6 +9,20 @@
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./drive": {
+      "types": "./dist/server/drive/index.d.ts",
+      "default": "./dist/server/drive/index.js"
+    },
+    "./ui": {
+      "types": "./dist/server/ui/index.d.ts",
+      "default": "./dist/server/ui/index.js"
+    }
+  },
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",

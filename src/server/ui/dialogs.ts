@@ -5,8 +5,9 @@ export function showDownloadDialog(params: {
   fileName: string;
   data: string;
   addBom?: boolean;
+  ui: GoogleAppsScript.Base.Ui;
 }) {
-  const { mimeType, fileName, data, addBom } = params;
+  const { mimeType, fileName, data, addBom, ui } = params;
   const dataBytes = Utilities.newBlob(data).getBytes();
   const finalBytes = addBom ? [...BOM, ...dataBytes] : dataBytes;
   const base64 = Utilities.base64Encode(finalBytes);
@@ -41,8 +42,5 @@ export function showDownloadDialog(params: {
       </body>
     </html>
 `;
-  SpreadsheetApp.getUi().showModalDialog(
-    HtmlService.createHtmlOutput(html),
-    'Download'
-  );
+  ui.showModalDialog(HtmlService.createHtmlOutput(html), 'Download');
 }
