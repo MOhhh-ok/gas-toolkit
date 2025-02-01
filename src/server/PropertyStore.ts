@@ -1,3 +1,17 @@
+/**
+ * A utility class that wraps Google Apps Script's Properties Service to provide
+ * type-safe persistent storage functionality.
+ *
+ * This class provides a strongly-typed interface for storing and retrieving data
+ * using the Properties Service, with automatic serialization and deserialization
+ * of JSON data.
+ *
+ * @template T - The type of value to be stored
+ * @example
+ * const store = new ScriptPropertyStore<string[]>('myList', 'script');
+ * store.set('items', ['item1', 'item2']);
+ * const items = store.get('items'); // string[] | undefined
+ */
 export class PropertyStore<T> {
   private readonly properties: GoogleAppsScript.Properties.Properties;
 
